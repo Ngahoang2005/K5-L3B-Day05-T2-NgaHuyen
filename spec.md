@@ -157,7 +157,7 @@ _(Thêm, không tính vào 3 mục trên: không gia hạn nộp bài và không
 - [x] Chỉ có màn trợ lý học bài (học viên) + hàng chờ TA — không thêm tính năng ngoài lát cắt.
 - [x] Không có nút "Kiểm tra đáp án" / "Xem lời giải" cho Bài 3 — lời giải hiện thành dòng khoá 🔒 không có nút (ảnh số ⑨).
 - [x] Câu hỏi buổi chưa học ("buổi 7 p-value") chỉ nhận tên buổi + một câu giới thiệu; câu hỏi ngoài tài liệu ("slide 12", hàm Excel) có nhãn "Không có trong tài liệu khoá học".
-- [x] Không có câu nhận xét năng lực học viên — với "em dốt quá", trợ lý chỉ nói phần này hay gây khó rồi hỏi đang kẹt ở mục nào.
+- [x] Không có câu nhận xét năng lực học viên — với "em dốt quá", trợ lý chỉ nói phần này hay gây khó, giải thích trung vị bằng ví dụ khác số liệu Bài 3 (§3.2, đúng §2 #8), rồi hỏi đang kẹt ở mục nào.
 
 ## §2. Kịch bản rủi ro (chặng 2)
 
@@ -404,7 +404,7 @@ Lời hứa mới được ghi ngay trên màn hình (thẻ "Trợ lý này làm
 
 - **File:** [`prototype/index.html`](prototype/index.html) — mở bằng trình duyệt, không cần cài gì. **Công cụ:** HTML + JS tĩnh (viết cùng coding agent). **Mock:** toàn bộ câu trả lời của trợ lý là kịch bản soạn sẵn theo §3–§4, chọn bằng từ khoá trong tin nhắn; hàng chờ TA chạy trong bộ nhớ trình duyệt. **Không có lời gọi AI thật**, không gửi dữ liệu đi đâu.
 - **Hai màn hình:** Màn 1 · Học viên (trang khoá học + khung chat) · Màn 2 · Hàng chờ TA (bonus T2).
-- **Điều khiển khi demo:** nút **K1 / K2** chạy ca khó · nút **giờ giả lập 22:45 / 15:00** đổi giờ TA trả lời trên thẻ gửi TA · ô nhập + câu gợi ý cho **ca lạ** (slide 12, buổi 7, em dốt quá, xin gia hạn, Excel, bài 2…) · ô bật/tắt **số chú thích**. Gõ tay thì prototype còn xử lý được các ca #10 (bỏ số 45 → trích §3.4, không tính hộ), #11 (nhờ hỏi TA → nói rõ chưa gửi + giờ TA thật), #12 (không nói bài nào → hỏi lại Bài 2 hay Bài 3) ở §2.
+- **Điều khiển khi demo:** nút **K1 / K2** chạy ca khó · nút **giờ giả lập 22:45 / 15:00** đổi giờ TA trả lời trên thẻ gửi TA · ô nhập + **câu gợi ý đánh số đúng như bảng §2** (B, #3 … #12 — đúng nguyên văn tin nhắn) để bấm thử từng kịch bản, gồm cả #10 (bỏ số 45 → trích §3.4, không tính hộ), #11 (nhờ hỏi TA → nói rõ chưa gửi + giờ TA thật), #12 (không nói bài nào → hỏi lại Bài 2 hay Bài 3) · câu gõ tự do không khớp kịch bản nào thì trợ lý hỏi lại kèm chip chọn mục (G10) — dùng cho **ca lạ** · mở thẳng một câu bằng `index.html#q=<câu hỏi>` · ô bật/tắt **số chú thích**.
 
 ### Ảnh có đánh số
 
