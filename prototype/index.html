@@ -141,7 +141,7 @@ code{font-size:12.5px;background:#f0f1f4;padding:0 4px;border-radius:4px}
    </ul>
    <h3>Không làm</h3>
    <ul class="can">
-    <li>Xác nhận đáp số, viết lời giải hay nhận xét hộ bài đang mở</li>
+    <li>Xác nhận đáp số, chỉ ra bước sai, viết lời giải hay nhận xét hộ bài đang mở</li>
     <li>Nói nội dung buổi chưa mở (quá 1 câu)</li>
     <li>Gia hạn nộp bài · nhận xét năng lực của bạn</li>
    </ul>
@@ -174,7 +174,7 @@ code{font-size:12.5px;background:#f0f1f4;padding:0 4px;border-radius:4px}
   <div class="panel"><h2>Mức tự chủ của trợ lý (theo §4 spec)</h2>
    <table><tr><th>Tool</th><th>Mức</th><th>Vì sao (cái giá khi sai)</th></tr>
    <tr><td><code>tra_cuu_tai_lieu</code></td><td><span class="pill p-auto">Tự làm</span></td><td>Chỉ đọc; học viên tự kiểm qua mã mục. Chờ người = mất lý do có trợ lý lúc 23h.</td></tr>
-   <tr><td><code>goi_y_bai_tap</code></td><td><span class="pill p-auto">Tự làm, có giới hạn</span></td><td>Bài đang mở: chỉ bước đầu. Bài hết hạn: giải đầy đủ. Gợi ý quá tay thì không rút lại được.</td></tr>
+   <tr><td><code>goi_y_bai_tap</code></td><td><span class="pill p-auto">Tự làm, có giới hạn</span></td><td>Bài đang mở: chỉ bước đầu, không chỉ ra bước sai. Bài hết hạn: giải đầy đủ. Gợi ý quá tay thì không rút lại được.</td></tr>
    <tr><td><i>xác nhận đáp số bài đang mở</i></td><td><span class="pill p-no">Cấm</span></td><td>Nói "đúng rồi" là chấm bài hộ; không đảo được. Không có nút.</td></tr>
    <tr><td><code>chuyen_TA</code></td><td><span class="pill p-ask">Học viên xác nhận</span></td><td>Đảo được (rút lại), rẻ; nhưng câu hỏi là của học viên và giờ TA trả lời phải nói thật trước khi gửi.</td></tr>
    <tr><td><code>soan_nhap_FAQ</code> <span style="color:var(--mut)">(tách mới)</span></td><td><span class="pill p-auto">Tự làm</span></td><td>Chỉ TA thấy; sai thì TA bỏ nháp, không ai bị ảnh hưởng.</td></tr>
@@ -199,7 +199,7 @@ const DOC={
 const K1='22h45 rồi, em tính bài 3 ra trung bình 15.25, trung vị 11.5, đúng chưa ạ? Đúng thì em nộp luôn';
 const K2='Tài liệu ghi độ lệch chuẩn luôn nhỏ hơn phương sai, vậy phương sai 0.25 thì độ lệch chuẩn bao nhiêu ạ? Em ra 0.5 mà lớn hơn, em sai ở đâu?';
 // câu gợi ý = đúng tin nhắn trong bảng §2 của spec (số # theo §2)
-const SUGG=[['K1',K1,1],['K2',K2,1],['B · Trung vị khác trung bình?','Trung vị khác trung bình cộng chỗ nào ạ? Khi nào dùng cái nào?'],['#3 Giải giúp bài 3','giải giúp em bài 3 câu b với, em làm mãi ko ra 😭 sắp hết hạn rồi'],['#4 Slide 12','Slide 12 thầy bảo quan trọng mà em ko thấy, slide 12 nói gì ạ'],['#5 Buổi 7','Buổi 7 p-value là gì vậy ạ, em muốn đọc trước'],['#6 Cái độ lệch ấy','Cái độ lệch ấy là gì ạ, em đọc không hiểu'],['#7 Hạn + Excel','Hạn nộp bài 3 là khi nào ạ? Với cả tính độ lệch chuẩn bằng Excel thì dùng hàm gì?'],['#8 Em dốt quá','em dốt quá, học mãi không hiểu trung vị, chắc em không hợp học data'],['#9 Bài 2 ra 7.5','Bài 2 đáp án là 6 hả ạ, em ra 7.5, em sai ở đâu?'],['#10 Bỏ số 45','Em bỏ số 45 đi cho dữ liệu đẹp rồi tính được không ạ? Chắc ai nhập nhầm'],['#11 Nhờ TA trước 23h','AI hỏi TA giúp em bài 3 với, TA rep trước 23h kịp không ạ?'],['#12 Bài tính trung bình?','bài tính trung bình làm kiểu gì ạ, em đọc đề chưa hiểu'],['Xin gia hạn','Cho em gia hạn bài 3 thêm 1 ngày được không ạ?']];
+const SUGG=[['K1',K1,1],['K2',K2,1],['B · Trung vị khác trung bình?','Trung vị khác trung bình cộng chỗ nào ạ? Khi nào dùng cái nào?'],['#3 Giải giúp bài 3','giải giúp em bài 3 câu b với, em làm mãi ko ra 😭 sắp hết hạn rồi'],['#4 Slide 12','Slide 12 thầy bảo quan trọng mà em ko thấy, slide 12 nói gì ạ'],['#5 Buổi 7','Buổi 7 p-value là gì vậy ạ, em muốn đọc trước'],['#6 Cái độ lệch ấy','Cái độ lệch ấy là gì ạ, em đọc không hiểu'],['#7 Hạn + Excel','Hạn nộp bài 3 là khi nào ạ? Với cả tính độ lệch chuẩn bằng Excel thì dùng hàm gì?'],['#8 Em dốt quá','em dốt quá, học mãi không hiểu trung vị, chắc em không hợp học data'],['#9 Bài 2 ra 7.5','Bài 2 đáp án là 6 hả ạ, em ra 7.5, em sai ở đâu?'],['#10 Bỏ số 45','Em bỏ số 45 đi cho dữ liệu đẹp rồi tính được không ạ? Chắc ai nhập nhầm'],['#11 Nhờ TA trước 23h','AI hỏi TA giúp em bài 3 với, TA rep trước 23h kịp không ạ?'],['#12 Bài tính trung bình?','bài tính trung bình làm kiểu gì ạ, em đọc đề chưa hiểu'],['#13 Chỉ bước sai','Em gửi bài 3: sắp xếp 9,10,10,11,12,12,13,45; trung vị = 12. Chỉ giúp em bước nào sai ạ'],['Xin gia hạn','Cho em gia hạn bài 3 thêm 1 ngày được không ạ?']];
 let S;
 function reset(){S={time:S?S.time:'22:45',queue:[],drafts:[],seq:0,mins:45};$('#chat').innerHTML='';say(intro());paint();}
 function now(){if(S.time==='15:00')return '15:0'+Math.min(9,S.mins-45);const m=S.mins;return '22:'+String(Math.min(59,m)).padStart(2,'0');}
@@ -255,8 +255,8 @@ function dHTML(d){const head=`<div class="meta">${d.warn?'<span class="pill p-as
 function dSet(id,st){S.drafts.find(x=>x.id===id).st=st;paint();}
 // ---- responses ----
 function intro(){return `Chào bạn 👋 Mình là <b>trợ lý AI</b> của khoá. Mình giảng lại bài theo tài liệu buổi 1–3 (luôn kèm mã mục, bấm vào nhãn để xem nguyên văn) và gợi ý bước đầu cho bài tập. Mình <b>không</b> phải TA và không chấm bài.`;}
-function rK1(){const ctx='K1 · xin xác nhận đáp số Bài 3';
- return `<div class="policy"><span class="n">1</span>Bài tập 3 <b>đang mở đến 23:59 hôm nay</b> — mình không xác nhận đáp số đúng hay sai, <b>kể cả khi bạn đúng</b>, vì như vậy là chấm bài hộ.</div>
+function rK1(step){const ctx=step?'#13 · nhờ chỉ ra bước sai Bài 3':'K1 · xin xác nhận đáp số Bài 3';
+ return `<div class="policy"><span class="n">1</span>Bài tập 3 <b>đang mở đến 23:59 hôm nay</b> — ${step?'mình không chỉ ra bước nào đúng hay sai, kể cả bằng gợi ý "nên xem lại phần…", <b>kể cả khi bài bạn đúng hết</b>':'mình không xác nhận đáp số đúng hay sai, <b>kể cả khi bạn đúng</b>'}, vì như vậy là chấm bài hộ.</div>
  Nhưng mình giúp bạn <b>tự kiểm</b> được theo tài liệu. ${src('3.1')}${src('3.2')}
  <div style="margin-top:4px"><span class="n">3</span>Bạn muốn tự kiểm phần nào trước?</div>
  <div class="chips" id="k1c"><button class="chip" onclick="k1('tb')">Trung bình (§3.1)</button><button class="chip" onclick="k1('tv')">Trung vị (§3.2)</button><button class="chip" onclick="k1('b')">Phần (b): số nào "điển hình" hơn</button><button class="chip" onclick="k1('ta')">Mình vẫn muốn có người kiểm tra</button></div>
@@ -284,6 +284,8 @@ function route(raw){const t=raw.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/
  const has=r=>r.test(t);
  if(has(/luon nho hon|0[.,]25/))return rK2();
  if(has(/(dung chua|dung khong|xac nhan|kiem tra giup|15[.,]25|11[.,]5)/)&&!has(/bai (tap )?2/))return rK1();
+ // #13 chỉ ra bước sai của Bài 3 = chấm bài hộ → xử lý như K1 (không nói bước nào)
+ if(has(/buoc nao sai|sai (o )?buoc|sai cho nao|soat (giup|bai)/)&&has(/bai (tap )?3|\b45\b|122/))return rK1(1);
  if((has(/45/)&&has(/(\bbo\b|nhap nham|loai bo)/))||has(/\bbo\b.*ngoai lai|ngoai lai.*\bbo\b/))return rDrop45();
  if(has(/(giai ho|giai giup|loi giai|lam ho|viet ho)/)&&!has(/bai (tap )?2/))return `<div class="policy"><span class="n">1</span>Bài tập 3 đang mở đến 23:59 — mình không giải hay viết nhận xét hộ.</div>${src('3.5')}<br><b>Bước đầu cho phần (b):</b> ${src('3.1')} nói trung bình bị kéo mạnh bởi giá trị ngoại lai; ${src('3.4')} nói về giá trị khác hẳn phần lớn dữ liệu. Nhìn lại dãy lương trong đề: có giá trị nào như vậy không? <b>Phần so sánh và nhận xét bạn tự viết</b> — mình không viết hộ.${LOCK}${fb('xin giải hộ bài 3')}`;
  if(has(/slide/))return `${NONE}<br>Tài liệu buổi 3 <b>không có slide đánh số</b> — chỉ có các mục §3.1 đến §3.5, nên mình không biết "slide 12" là gì và sẽ không đoán.<div style="margin-top:4px"><span class="n">3</span>Slide đó nói về phần nào? Mình tìm mục tương ứng cho bạn:</div><div class="chips"><button class="chip" onclick="ask('Trung bình cộng là gì ạ?')">§3.1 Trung bình</button><button class="chip" onclick="ask('Trung vị là gì ạ?')">§3.2 Trung vị</button><button class="chip" onclick="ask('Phương sai là gì ạ?')">§3.3 Phương sai</button><button class="chip" onclick="ask('Giá trị ngoại lai là gì ạ?')">§3.4 Ngoại lai</button></div>${taCard({hw3:0,tag:'Nguồn không có trong tài liệu',tc:'p-ask',msg:esc(raw),ai:'Nói rõ tài liệu không có slide đánh số; hỏi lại học viên tìm phần nào.',not:'Không đoán nội dung "slide 12".'})}`;
