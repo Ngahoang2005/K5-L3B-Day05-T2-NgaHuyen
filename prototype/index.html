@@ -5,7 +5,8 @@
 :root{--ink:#1f2328;--mut:#667085;--line:#e2e4e9;--bg:#f4f5f7;--card:#fff;
 --g:#1f7a4d;--gb:#e3f4ea;--a:#9a6700;--ab:#fff4d6;--r:#b42318;--rb:#fdecea;--b:#2456a6;--bb:#e8effb;--gr:#5b6170;--grb:#eef0f3;--n:#c2410c}
 *{box-sizing:border-box}
-body{margin:0;font-family:"Segoe UI","Noto Sans",Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:14.5px;line-height:1.5}
+body{margin:0;font-family:"Segoe UI","Noto Sans",Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:14.5px;line-height:1.5;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.top,.foot{flex:none}
 button{font:inherit;cursor:pointer}
 .top{background:#fff;border-bottom:1px solid var(--line);padding:10px 20px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
 .top h1{font-size:16px;margin:0 12px 0 0}
@@ -16,10 +17,11 @@ button{font:inherit;cursor:pointer}
 .ctrl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--mut)}
 .ctrl button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 9px;font-size:13px}
 .ctrl button.on{border-color:var(--b);color:var(--b);background:var(--bb)}
-.wrap{max-width:1280px;margin:0 auto;padding:16px 20px}
-.screen{display:none}.screen.on{display:grid}
+.wrap{max-width:1280px;margin:0 auto;padding:12px 20px;flex:1;min-height:0;width:100%}
+.screen{display:none;height:100%}.screen.on{display:grid}
 #s-student{grid-template-columns:250px 1fr 290px;gap:16px}
 #s-ta{grid-template-columns:1fr 1fr;gap:16px}
+#s-student>aside,#s-ta>div{overflow:auto;min-height:0}
 .panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .panel h2{font-size:14.5px;margin:0 0 8px}
 .panel h3{font-size:13px;margin:12px 0 4px;color:var(--mut);text-transform:uppercase;letter-spacing:.03em}
@@ -28,10 +30,12 @@ button{font:inherit;cursor:pointer}
 .hw{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:6px 0;font-size:13.5px}
 .hw.open{border-color:#f0c36a;background:var(--ab)}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
-.chatbox{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:12px;min-height:640px}
+.chatbox{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:12px;height:100%;min-height:0;overflow:hidden}
+.chathead,.inputbar{flex:none}
 .chathead{padding:10px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--mut);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .chathead b{color:var(--ink)}
-#chat{flex:1;padding:14px 16px;display:flex;flex-direction:column;gap:12px;overflow:auto;max-height:68vh}
+#chat{flex:1;min-height:0;padding:14px 16px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;position:relative;scroll-behavior:smooth}
+#chat>*{flex:none}
 .me{align-self:flex-end;background:var(--b);color:#fff;padding:8px 12px;border-radius:12px 12px 2px 12px;max-width:80%}
 .ai{align-self:flex-start;background:#f6f7f9;border:1px solid var(--line);padding:10px 12px;border-radius:12px 12px 12px 2px;max-width:92%}
 .who{font-size:12px;color:var(--mut);margin-bottom:4px}
@@ -76,9 +80,9 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{border-bottom:1px
 .p-auto{background:var(--gb);color:var(--g)}.p-ask{background:var(--ab);color:var(--a)}.p-no{background:var(--rb);color:var(--r)}
 textarea{width:100%;font:inherit;font-size:13.5px;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;min-height:70px}
 .tastatus{font-size:13px;border-radius:8px;padding:7px 10px;margin-bottom:12px}
-.foot{font-size:12px;color:var(--mut);text-align:center;padding:4px 20px 20px}
+.foot{font-size:11.5px;color:var(--mut);text-align:center;padding:0 20px 6px}
 code{font-size:12.5px;background:#f0f1f4;padding:0 4px;border-radius:4px}
-@media (max-width:1050px){#s-student,#s-ta{grid-template-columns:1fr}.chatbox{min-height:480px}}
+@media (max-width:1050px){body{height:auto;overflow:auto}.screen{height:auto}#s-student,#s-ta{grid-template-columns:1fr}.chatbox{height:85vh}}
 </style></head>
 <body>
 <div class="top">
@@ -214,7 +218,9 @@ function paint(){
  $('#sugg').innerHTML=SUGG.map((s,i)=>`<button class="${s[2]?'k':''}" onclick="ask(SUGG[${i}][1])">${s[0]}</button>`).join('');
 }
 function esc(t){return t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
-function say(html,cls='ai',id){const d=document.createElement('div');d.className=cls;if(id)d.id=id;d.innerHTML=cls==='ai'?'<div class="who">Trợ lý học bài (AI)</div>'+html:html;$('#chat').appendChild(d);d.scrollIntoView({block:'end'});return d;}
+function say(html,cls='ai',id){const d=document.createElement('div');d.className=cls;if(id)d.id=id;d.innerHTML=cls==='ai'?'<div class="who">Trợ lý học bài (AI)</div>'+html:html;$('#chat').appendChild(d);return d;}
+// cuộn kiểu ChatGPT: câu vừa hỏi lên đầu khung, câu trả lời đọc tiếp bên dưới; trang không nhảy
+function pin(el){const c=$('#chat');if(el)c.scrollTop=Math.max(0,el.offsetTop-12);}
 function nid(){return 'x'+(++S.seq)}
 // ---- building blocks ----
 function src(sec,kind='ok'){const id=nid();const txt={ok:'Có căn cứ · ',warn:'⚠ Có thể cần xem lại · '}[kind]+(sec==='course'?'Trang khoá học':'§'+sec);
@@ -254,7 +260,7 @@ function rK1(){const ctx='K1 · xin xác nhận đáp số Bài 3';
  <div style="margin-top:4px"><span class="n">3</span>Bạn muốn tự kiểm phần nào trước?</div>
  <div class="chips" id="k1c"><button class="chip" onclick="k1('tb')">Trung bình (§3.1)</button><button class="chip" onclick="k1('tv')">Trung vị (§3.2)</button><button class="chip" onclick="k1('b')">Phần (b): số nào "điển hình" hơn</button><button class="chip" onclick="k1('ta')">Mình vẫn muốn có người kiểm tra</button></div>
  ${LOCK}${fb(ctx)}`;}
-function k1(w){const user={tb:'Kiểm phần trung bình',tv:'Kiểm phần trung vị',b:'Phần (b) ạ',ta:'Em vẫn muốn có người kiểm tra'}[w];say(esc(user),'me');
+function k1(w){const user={tb:'Kiểm phần trung bình',tv:'Kiểm phần trung vị',b:'Phần (b) ạ',ta:'Em vẫn muốn có người kiểm tra'}[w];const m=say(esc(user),'me');setTimeout(()=>pin(m));
  const A={
  tb:`${src('3.1')}<br><b>Bước đầu:</b> trung bình = tổng các giá trị ÷ số giá trị. Bạn tự kiểm 2 điều: tổng đã cộng đủ <b>8</b> giá trị chưa (kể cả 45)? Và bạn chia cho 8 chứ không phải 7?`,
  tv:`${src('3.2')}<br><b>Bước đầu:</b> sắp xếp 8 giá trị tăng dần. Vì 8 là số <b>chẵn</b>, trung vị là trung bình cộng của <b>hai giá trị đứng giữa</b>. Với 8 giá trị, đó là giá trị thứ mấy và thứ mấy? Bạn so với cách mình đã làm.`,
@@ -290,12 +296,12 @@ function route(raw){const t=raw.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/
  if(has(/ngoai lai/))return `${src('3.4')}<br>Giá trị ngoại lai là giá trị khác hẳn phần lớn dữ liệu. Trước khi bỏ nó, cần hỏi: đây là lỗi nhập liệu hay dữ liệu thật?${fb('§3.4')}`;
  if(has(/trung binh/))return `${src('3.1')}<br>Trung bình cộng = tổng các giá trị ÷ số giá trị. Nó bị kéo mạnh bởi giá trị ngoại lai.${fb('§3.1')}`;
  return `${NONE}<br>Mình chưa chắc bạn đang hỏi phần nào, và không muốn đoán.<div style="margin-top:4px"><span class="n">3</span>Bạn chọn giúp mình:</div><div class="chips"><button class="chip" onclick="ask('Trung bình cộng là gì ạ?')">§3.1</button><button class="chip" onclick="ask('Trung vị là gì ạ?')">§3.2</button><button class="chip" onclick="ask('Phương sai là gì ạ?')">§3.3</button><button class="chip" onclick="ask('Giá trị ngoại lai là gì ạ?')">§3.4</button><button class="chip" onclick="ask('Hạn nộp bài 3 khi nào ạ?')">Hạn nộp</button></div>${taCard({hw3:0,tag:'Câu trợ lý chưa hiểu',tc:'p-ask',msg:esc(raw),ai:'Không đoán; hỏi lại học viên chọn mục.',not:'Không trả lời khi không có căn cứ.'})}`;}
-function ask(text){tick();say(esc(text),'me');say(route(text));paint();}
+function ask(text){tick();const m=say(esc(text),'me');say(route(text));paint();pin(m);}
 function send(){const v=$('#inp').value.trim();if(!v)return;$('#inp').value='';ask(v);}
 // ---- presets for screenshots: #k1 #k2 #ta ----
 reset();
 const h=location.hash;
-if(h==='#k1'){ask(K1);k1('tv');}
+if(h==='#k1'){ask(K1);k1('tv');setTimeout(()=>{$('#chat').style.scrollBehavior='auto';pin($('#chat .me'));},10);}
 if(h==='#k1ta'){ask(K1);k1('ta');}
 if(h==='#k2'){ask(K2);}
 if(h==='#ta'){ask(K1);k1('ta');document.querySelectorAll('.box.ta .btn.pri').forEach(b=>b.click());ask(K2);document.querySelectorAll('.box.ta .btn.pri').forEach(b=>b.click());tab('ta');}
